@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate to Campaign</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 50px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      font-size: 18px;
+      color: #555;
+    }
+    .donate-button {
+      padding: 15px 30px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Help <span id="patientName">[Patient Name]</span> Fight <span id="diseaseName">[Disease]</span></h1>
+  <p>Required Amount: Rs. <span id="requiredAmount">[Required Amount]</span></p>
+  <button class="donate-button" onclick="donate()">Donate Now</button>
+
+  <script>
+    // Function to extract campaign ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const campaignId = urlParams.get('campaignId');
+
+    // Mock function to fetch campaign details from Firestore
+    // You'd replace this with actual Firestore data fetching logic.
+    function fetchCampaignDetails(id) {
+      // Mock data (in actual usage, fetch this from Firestore)
+      return {
+        patientName: 'John Doe',
+        diseaseName: 'Cancer',
+        requiredAmount: '50000',
+      };
+    }
+
+    // Populate the HTML with campaign details
+    const campaignDetails = fetchCampaignDetails(campaignId);
+    document.getElementById('patientName').innerText = campaignDetails.patientName;
+    document.getElementById('diseaseName').innerText = campaignDetails.diseaseName;
+    document.getElementById('requiredAmount').innerText = campaignDetails.requiredAmount;
+
+    function donate() {
+      alert('Redirecting to payment gateway...');
+    }
+  </script>
+</body>
+</html>
