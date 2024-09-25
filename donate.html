@@ -1,126 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donate to Campaign</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #e9edf1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .card {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      height: 150px;
-      border-radius: 10px;
-      background-color: #f0f0f0; /* Placeholder background */
-    }
-
-    .raised-text {
-      font-size: 18px;
-      color: #333;
-      margin: 15px 0 5px;
-    }
-
-    .raised-amount {
-      font-weight: bold;
-    }
-
-    .donors-info {
-      color: green;
-      font-size: 16px;
-      margin: 10px 0;
-    }
-
-    .progress-bar {
-      width: 100%;
-      background-color: #e0e0e0;
-      border-radius: 5px;
-      height: 10px;
-      margin: 15px 0;
-    }
-
-    .progress {
-      background-color: #28a745;
-      height: 100%;
-      border-radius: 5px;
-      width: 20%; /* Example width; this should be dynamic */
-    }
-
-    .donate-button {
-      padding: 15px 30px;
-      background-color: #ff9500;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .donate-button:hover {
-      background-color: #e68a00;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Page</title>
 </head>
 <body>
-  <div class="card">
-    <img src="#" alt="Campaign Image" /> <!-- You can replace # with an image URL -->
-    <p class="raised-text">
-      Rs. <span class="raised-amount" id="raisedAmount">15,000</span> Raised Of Rs. 
-      <span id="requiredAmount">3,00,000</span>
-    </p>
-    <p class="donors-info" id="donorsInfo">10 donors in 3 days</p>
-    <div class="progress-bar">
-      <div class="progress" style="width: 5%;"></div> <!-- Set width dynamically -->
-    </div>
-    <button class="donate-button" onclick="donate()">Donate Now</button>
-  </div>
+    <h1>Donation for: <span id="patientName"></span></h1>
+    <p>Fundraiser: <span id="yourName"></span></p>
+    <p>Disease: <span id="diseaseName"></span></p>
+    <p>Required Amount: ₹<span id="requiredAmount"></span></p>
 
-  <script>
-    // Function to extract campaign ID from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const campaignId = urlParams.get('campaignId');
+    <script>
+        // Function to get query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                yourName: params.get('yourName'),
+                patientName: params.get('patientName'),
+                diseaseName: params.get('diseaseName'),
+                requiredAmount: params.get('requiredAmount')
+            };
+        }
 
-    // Mock function to fetch campaign details from Firestore
-    // Replace this with actual Firestore data fetching logic.
-    function fetchCampaignDetails(id) {
-      // Mock data (in actual usage, fetch this from Firestore)
-      return {
-        raisedAmount: '15000',
-        requiredAmount: '300000',
-        donors: 10,
-        days: 3,
-      };
-    }
+        // Populate the HTML with query parameters
+        const { yourName, patientName, diseaseName, requiredAmount } = getQueryParams();
 
-    // Populate the HTML with campaign details
-    const campaignDetails = fetchCampaignDetails(campaignId);
-    document.getElementById('raisedAmount').innerText = campaignDetails.raisedAmount;
-    document.getElementById('requiredAmount').innerText = campaignDetails.requiredAmount;
-    document.getElementById('donorsInfo').innerText = `${campaignDetails.donors} donors in ${campaignDetails.days} days`;
-
-    // Set the progress bar width dynamically
-    const progressPercentage = (campaignDetails.raisedAmount / campaignDetails.requiredAmount) * 100;
-    document.querySelector('.progress').style.width = `${progressPercentage}%`;
-
-    function donate() {
-      alert('Redirecting to payment gateway...');
-    }
-  </script>
+        document.getElementById('yourName').innerText = yourName || 'N/A';
+        document.getElementById('patientName').innerText = patientName || 'N/A';
+        document.getElementById('diseaseName').innerText = diseaseName || 'N/A';
+        document.getElementById('requiredAmount').innerText = requiredAmount || '0.00';
+    </script>
 </body>
 </html>
