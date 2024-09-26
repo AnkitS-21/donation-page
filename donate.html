@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,140 +7,101 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
             text-align: center;
         }
 
         h1 {
             color: #003198;
+            margin-bottom: 20px;
         }
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 20px auto;
-            text-align: left;
-        }
-
-        .donation-box {
-            text-align: center;
-        }
-
-        .donation-box h2 {
-            color: #FF0000;
-        }
-
-        .raised-amount {
-            font-size: 20px;
-            font-weight: bold;
+        p {
+            font-size: 16px;
             color: #333;
-        }
-
-        .progress {
-            width: 100%;
-            background-color: #f3f3f3;
-            border-radius: 20px;
-            height: 10px;
             margin: 10px 0;
         }
 
+        .info {
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin-top: 30px;
+        }
+
+        .progress-bar-background {
+            width: 100%;
+            height: 25px;
+            background-color: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
         .progress-bar {
-            height: 10px;
-            background-color: #1BBF00;
+            height: 100%;
+            background-color: #28a745;
+            width: 0;
             border-radius: 20px;
         }
 
-        .donate-now-btn {
-            background-color: #FF7F27;
-            color: #fff;
-            padding: 10px;
+        .donation-button {
+            background-color: #003198;
+            color: white;
+            padding: 10px 20px;
             border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .campaigner-details,
-        .beneficiary-details {
-            background-color: #EFF4FF;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: left;
-        }
-
-        .campaigner-details h3,
-        .beneficiary-details h3 {
-            font-size: 18px;
-            color: #003198;
-        }
-
-        .contact-icons {
-            display: flex;
-            align-items: center;
-        }
-
-        .contact-icons img {
-            margin-left: 10px;
-            height: 20px;
-            width: 20px;
-            cursor: pointer;
-        }
-
-        .live-update {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .raised-amount {
+            border-radius: 5px;
             font-size: 16px;
-            color: #686868;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .donation-button:hover {
+            background-color: #0052cc;
         }
     </style>
 </head>
-
 <body>
 
-    <h1 id="pageTitle">Help <span id="patientName"></span> Fight With <span id="diseaseName"></span></h1>
-
-    <div class="container donation-box">
-        <div class="live-update" id="liveUpdate">● Live Donation Update: Rs. <span id="raisedAmount"></span></div>
-        <h2>Rs. <span id="raisedAmount">0</span> Raised Of Rs. <span id="requiredAmount">0</span></h2>
-        <p>10 donors in 3 days</p>
-
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
+    <div class="container">
+        <h1>Donation for: <span id="patientName"></span></h1>
+        <div class="info">
+            <p><strong>Fundraiser:</strong> <span id="yourName"></span></p>
+            <p><strong>Disease:</strong> <span id="diseaseName"></span></p>
+            <p><strong>Required Amount:</strong> ₹<span id="requiredAmount"></span></p>
+            <p><strong>Address:</strong> <span id="patientAddress"></span></p>
+            <p><strong>Mobile:</strong> <span id="mobile"></span></p>
         </div>
 
-        <button class="donate-now-btn">Donate Now</button>
-    </div>
-
-    <div class="container campaigner-details">
-        <h3>Campaigner Details</h3>
-        <p id="yourName"></p>
-        <p id="campaignerLocation">Location: <span id="location"></span></p>
-        <div class="contact-icons">
-            <span>Contact Via:</span>
-            <img src="whatsapp.png" alt="WhatsApp" />
-            <img src="phone.png" alt="Phone" />
-            <img src="email.png" alt="Email" />
+        <div class="progress-container">
+            <p>Progress towards Target:</p>
+            <div class="progress-bar-background">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p>₹<span id="progressAmount">0</span> / ₹<span id="requiredAmountProgress"></span></p>
         </div>
-    </div>
 
-    <div class="container beneficiary-details">
-        <h3>Beneficiary Details</h3>
-        <p id="beneficiaryName">Patient Name: <span id="patientName"></span></p>
-        <p>Hospitalized at <span id="hospital"></span></p>
+        <button class="donation-button">Donate Now</button>
     </div>
 
     <script>
-        // Function to get query parameters from URL
+        // Function to get query parameters
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
@@ -149,30 +109,30 @@
                 patientName: params.get('patientName'),
                 diseaseName: params.get('diseaseName'),
                 requiredAmount: params.get('requiredAmount'),
-                raisedAmount: params.get('raisedAmount') || 15000, // Example dynamic value
-                location: params.get('patientAddress') || "Mumbai, Maharashtra"
+                patientAddress: params.get('patientAddress'),
+                mobile: params.get('mobile'),
+                progressAmount: params.get('progressAmount') || 0
             };
         }
 
-        // Populate the HTML with dynamic values
-        const { yourName, patientName, diseaseName, requiredAmount, raisedAmount, location, hospital } = getQueryParams();
+        // Populate the HTML with query parameters
+        const { yourName, patientName, diseaseName, requiredAmount, patientAddress, mobile, progressAmount } = getQueryParams();
 
         document.getElementById('yourName').innerText = yourName || 'N/A';
         document.getElementById('patientName').innerText = patientName || 'N/A';
         document.getElementById('diseaseName').innerText = diseaseName || 'N/A';
         document.getElementById('requiredAmount').innerText = requiredAmount || '0.00';
-        document.getElementById('raisedAmount').innerText = raisedAmount;
-        document.getElementById('patientAddress').innerText = location;
+        document.getElementById('patientAddress').innerText = patientAddress || 'N/A';
+        document.getElementById('mobile').innerText = mobile || 'N/A';
+        document.getElementById('progressAmount').innerText = progressAmount || '0';
+        document.getElementById('requiredAmountProgress').innerText = requiredAmount || '0';
 
-        // Update the title
-        document.getElementById('pageTitle').innerHTML = `Help ${patientName} Fight With ${diseaseName}`;
+        // Calculate progress and update progress bar
+        const progressPercentage = (progressAmount / requiredAmount) * 100;
+        document.getElementById('progressBar').style.width = `${progressPercentage}%`;
 
-        // Update the progress bar
-        const progressBar = document.getElementById('progressBar');
-        const progress = Math.min((raisedAmount / requiredAmount) * 100, 100); // Limit to 100%
-        progressBar.style.width = progress + '%';
+        // Set default progress value in case it's missing
+        document.getElementById('progressAmount').innerText = progressAmount || '0';
     </script>
-
 </body>
-
 </html>
